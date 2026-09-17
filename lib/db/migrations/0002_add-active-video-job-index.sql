@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "video_jobs_active_campaign_unique" ON "video_jobs" USING btree ("campaign_id") WHERE "video_jobs"."status" IN ('queued', 'generating');

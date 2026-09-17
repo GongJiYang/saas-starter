@@ -1,0 +1,1 @@
+ALTER TABLE "shot_skill_versions" ADD COLUMN "revision" integer DEFAULT 1 NOT NULL;

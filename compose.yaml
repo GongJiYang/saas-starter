@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: saas-starter-postgres
+    environment:
+      POSTGRES_DB: saas_starter
+      POSTGRES_USER: saas_starter
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '127.0.0.1:54329:5432'
+    volumes:
+      - saas_starter_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  redis:
+    image: redis:7-alpine
+    container_name: saas-starter-redis
+    command: redis-server --appendonly yes --maxmemory-policy noeviction
+    ports:
+      - '127.0.0.1:56379:6379'
+    volumes:
+      - saas_starter_redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+volumes:
+  saas_starter_postgres_data:
+  saas_starter_redis_data:
